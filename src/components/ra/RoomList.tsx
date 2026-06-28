@@ -1,4 +1,3 @@
-// src/components/ra/RoomList.tsx
 import { List, Datagrid, TextField, EditButton, DeleteButton } from "react-admin";
 
 export const RoomList = () => (

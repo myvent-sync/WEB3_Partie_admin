@@ -1,4 +1,3 @@
-// src/components/ra/QuestionList.tsx
 import { List, Datagrid, TextField, DateField, EditButton, DeleteButton } from "react-admin";
 
 export const QuestionList = () => (

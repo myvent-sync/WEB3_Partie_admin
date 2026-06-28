@@ -1,4 +1,3 @@
-// src/components/ra/SessionList.tsx
 import { List, Datagrid, TextField, DateField, ReferenceField, EditButton } from "react-admin";
 
 export const SessionList = () => (

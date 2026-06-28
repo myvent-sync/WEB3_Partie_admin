@@ -1,30 +1,32 @@
 import { AuthProvider } from "react-admin";
+import { signIn, signOut, getSession } from "next-auth/react";
 
 export const authProvider: AuthProvider = {
     login: async ({ email, password }) => {
-        const res = await fetch("/api/auth/callback/credentials", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password, redirect: false }),
+        const result = await signIn("credentials", {
+            email,
+            password,
+            redirect: false,
+            callbackUrl: "/admin/ra",
         });
-        if (!res.ok) {
+        if (!result || result.error) {
             throw new Error("Identifiants incorrects");
         }
-        // Vérifie que l'utilisateur est bien admin
-        const session = await fetch("/api/auth/session").then((r) => r.json());
+        const session = await getSession();
         if (session?.user?.role !== "admin") {
-            throw new Error("Accès non autorisé");
+            await signOut({ redirect: false });
+            throw new Error("Accès non autorisé");  
         }
     },
 
     logout: async () => {
-        await fetch("/api/auth/signout", { method: "POST" });
+        await signOut({ redirect: false });
     },
 
     checkAuth: async () => {
-        const session = await fetch("/api/auth/session").then((r) => r.json());
-        if (!session || session.user?.role !== "admin") {
-            throw new Error();
+        const session = await getSession();
+        if (!session || session?.user?.role !== "admin") {
+            throw new Error("Non authentifié");
         }
     },
 
@@ -37,7 +39,7 @@ export const authProvider: AuthProvider = {
     },
 
     getPermissions: async () => {
-        const session = await fetch("/api/auth/session").then((r) => r.json());
+        const session = await getSession();
         return session?.user?.role;
     },
 };
