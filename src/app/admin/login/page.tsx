@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function AdminLoginPage() {
     const router = useRouter();
@@ -30,6 +31,16 @@ export default function AdminLoginPage() {
 
     return (
         <div className="min-h-[calc(100vh-56px)] flex items-center justify-center px-6">
+            {/* Bouton Accueil */}
+            <a
+                href="http://localhost:3000/"
+                className="fixed top-5 left-5 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm hover:bg-primary/10 border border-border rounded-full px-5 h-12 items-center gap-2 transition-all duration-200 shadow-lg flex"
+                title="Retour à l'accueil du site"
+            >
+                <ArrowLeft size={14} className="text-primary" />
+                <span className="text-sm font-mono font-bold text-primary">Accueil</span>
+            </a>
+
             <div className="w-full max-w-sm fade-up">
                 <div className="mb-10 text-center">
                     <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-destructive mb-3">ACCÈS RESTREINT</p>
@@ -55,7 +66,12 @@ export default function AdminLoginPage() {
                 </div>
 
                 <div className="mt-6 text-center">
-                    <Link href="/" className="text-xs font-mono text-muted-foreground hover:text-primary transition-colors">← Retour au site</Link>
+                    <a
+                        href="http://localhost:3000/"
+                        className="text-xs font-mono text-muted-foreground hover:text-primary transition-colors"
+                    >
+                        ← Retour au site
+                    </a>
                 </div>
             </div>
         </div>
